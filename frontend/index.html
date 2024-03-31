@@ -4,12 +4,66 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Draw Dream</title>
 </head>
 <body>
-   <canvas id="canvas" style="border: 2px solid black;"></canvas> 
-   <canvas id="canvas2" style="width: 0; height: 0;"></canvas> 
+    <div class=" w-screen h-screen ">
+        <canvas id="canvas" style="border: 2px solid black;"></canvas>
+    </div>
+    <canvas id="canvas2" style="width: 0; height: 0;"></canvas>
+    <div class=" flex justify-center items-center w-screen h-screen bg-black flex relative">
+        <!-- Just some Balls -->
+        <div class=" absolute -left-24 w-3/6 h-40 rounded-full bg-orange-400 p-9">
+            <div class=" bg-orange-600 w-full h-full rounded-full "></div>
+        </div>
+        <div class=" absolute -right-24 w-3/6 h-40 rounded-full bg-orange-400 p-9">
+            <div class=" bg-orange-600 w-full h-full rounded-full "></div>
+        </div>
 
-   <script src="canvas.js"></script>
+        <!-- Actual data -->
+        <div class=" text-9xl text-white absolute z-20 w-24 h-20 rounded-full bg-red-400"></div>
+        <div class=" text-9xl text-white absolute z-20 bg-black rounded-full">0</div>
+        <a href="https://www.google.com" class=" rounded-xl m-4 w-4/6 h-4/6 ring-2 ring-cyan-700 hover:ring-cyan-500 backdrop-blur-lg hover:backdrop-blur-xl hover:scale-110 hover:translate-x-16 z-10 hover:z-20 transition ease-in-out duration-800"> </a>
+        <a class=" rounded-xl m-4 w-4/6 h-4/6 ring-2 ring-cyan-700 hover:ring-cyan-500 backdrop-blur-lg hover:backdrop-blur-xl hover:scale-110 hover:-translate-x-16 hover:z-30 transition ease-in-out duration-800"> </a>
+    </div>
+
+
+    <div class=" flex justify-center items-center w-screen h-screen bg-black flex relative">
+        <!-- Just some Balls -->
+        <div class=" absolute -left-24 w-3/6 h-40 rounded-full bg-orange-400 p-9">
+            <div class=" bg-orange-600 w-full h-full rounded-full "></div>
+        </div>
+        <div class=" absolute -right-24 w-3/6 h-40 rounded-full bg-orange-400 p-9">
+            <div class=" bg-orange-600 w-full h-full rounded-full "></div>
+        </div>
+
+        <!-- Actual data -->
+        <div class=" text-9xl text-white absolute z-20 w-24 h-20 rounded-full bg-red-400"></div>
+        <div class=" text-9xl text-white absolute z-20 bg-black rounded-full">1</div>
+        <a href="https://www.google.com" class=" rounded-xl m-4 w-4/6 h-4/6 ring-2 ring-cyan-700 hover:ring-cyan-500 backdrop-blur-lg hover:backdrop-blur-xl hover:scale-110 hover:translate-x-16 z-10 hover:z-20 transition ease-in-out duration-800"> </a>
+        <a class=" rounded-xl m-4 w-4/6 h-4/6 ring-2 ring-cyan-700 hover:ring-cyan-500 backdrop-blur-lg hover:backdrop-blur-xl hover:scale-110 hover:-translate-x-16 hover:z-30 transition ease-in-out duration-800"> </a>
+    </div>
+
+
+    <div class=" flex justify-center items-center w-screen h-screen bg-black flex relative">
+        <!-- Just some Balls -->
+        <div class=" absolute -left-24 w-3/6 h-40 rounded-full bg-orange-400 p-9">
+            <div class=" bg-orange-600 w-full h-full rounded-full "></div>
+        </div>
+        <div class=" absolute -right-24 w-3/6 h-40 rounded-full bg-orange-400 p-9">
+            <div class=" bg-orange-600 w-full h-full rounded-full "></div>
+        </div>
+
+        <!-- Actual data -->
+        <div class=" text-9xl text-white absolute z-20 w-24 h-20 rounded-full bg-red-400"></div>
+        <div class=" text-9xl text-white absolute z-20 bg-black rounded-full">2</div>
+        <a href="https://www.google.com" class=" rounded-xl m-4 w-4/6 h-4/6 ring-2 ring-cyan-700 hover:ring-cyan-500 backdrop-blur-lg hover:backdrop-blur-xl hover:scale-110 hover:translate-x-16 z-10 hover:z-20 transition ease-in-out duration-800"> </a>
+        <a class=" rounded-xl m-4 w-4/6 h-4/6 ring-2 ring-cyan-700 hover:ring-cyan-500 backdrop-blur-lg hover:backdrop-blur-xl hover:scale-110 hover:-translate-x-16 hover:z-30 transition ease-in-out duration-800"> </a>
+    </div>
+
+
+        <script src="canvas.js"></script>
 </body>
+
 </html>

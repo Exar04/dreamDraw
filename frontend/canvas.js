@@ -1,4 +1,4 @@
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
     const canvas = document.querySelector("#canvas")
     const ctx = canvas.getContext("2d")
 
@@ -12,13 +12,14 @@ window.addEventListener("load", () => {
     ctx.fillRect(0,0,280,280)
     let painting = false
 
-    function startPosition() {
+    function startPosition(e) {
+        e.preventDefault()
         painting = true;
     }
 
     function endPosition(event){
-        event.preventDefault()
       painting = false;
+      event.preventDefault()
 
       const dataURI = canvas.toDataURL();
       resizeImage(dataURI, 28, "canvas2", function(hoimg) {
@@ -42,6 +43,7 @@ window.addEventListener("load", () => {
     }
 
     function draw(e) {
+        e.preventDefault()
         if (!painting) {
             return
         }
@@ -53,9 +55,18 @@ window.addEventListener("load", () => {
         ctx.stroke()
     }
 
-    canvas.addEventListener("mousedown", startPosition)
-    canvas.addEventListener("mouseup", endPosition)
-    canvas.addEventListener("mousemove", draw)
+    canvas.addEventListener("mousedown", function(event){
+        event.preventDefault()
+        startPosition(event)
+    })
+    canvas.addEventListener("mouseup", function(event){
+        event.preventDefault()
+        endPosition(event)
+    })
+    canvas.addEventListener("mousemove", function(event){
+        event.preventDefault()
+        draw(event)
+    })
 
     function resizeImage(dataURI, newWidth, canvasId, callback) {
         // Create a new image element
