@@ -1,15 +1,17 @@
 window.addEventListener("load", async () => {
     const canvas = document.querySelector("#canvas")
     const ctx = canvas.getContext("2d")
-
-    // canvas.height = window.innerHeight
-    // canvas.width = window.innerWidth 
-    canvas.height = 280
-    canvas.width =  280
+    if (window.innerHeight > 700) {
+    canvas.height = 700
+    canvas.width =  700
+    }else{
+        canvas.height = 280
+        canvas.width = 280
+    }
 
     // ctx.strokeStyle = "red"
     ctx.fillStyle = "white"
-    ctx.fillRect(0,0,280,280)
+    ctx.fillRect(0,0,700,700)
     let painting = false
 
     function startPosition(e) {
@@ -61,7 +63,13 @@ window.addEventListener("load", async () => {
         ctx.lineWidth = 10;
         ctx. lineCap = "round";
 
-        ctx.lineTo(e.clientX, e.clientY)
+        const recto = canvas.getBoundingClientRect();
+
+        // Calculate the offset between the canvas and the window
+        const offsetX = recto.left;
+        const offsetY = recto.top;
+
+        ctx.lineTo(e.clientX - offsetX, e.clientY - offsetY)
         ctx.stroke()
     }
 

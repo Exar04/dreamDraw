@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   var ifClicked = "nexist";
   var deserilized_bookmark = JSON.parse(localStorage.getItem("page0Item2"));
-  console.log(deserilized_bookmark);
+    if (deserilized_bookmark == null) {
+        deserilized_bookmark = {
+            name: "",
+            link: "",
+            color: ""  
+        }
+    }
 
   const link1 = document.getElementById("page1Item2ItemExist");
   const link1Div = document.getElementById("page1Item2ItemExistDiv");
@@ -20,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     toggleLinks1("nexist");
   }
-
+  console.log("so")
 
   const nameElement1 = document.createElement("div");
   nameElement1.textContent = deserilized_bookmark.name;
