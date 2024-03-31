@@ -36,7 +36,17 @@ window.addEventListener("load", async () => {
         })
         .then(response => response.json())
         .then((res) => {
-            console.log(res)
+            console.log(res.message)
+            if(res.message == 0) {window.location.hash = "#0"}
+            if(res.message == 1){window.location.hash = "#1"}
+            if(res.message == 2){window.location.hash = "#2"}
+            if(res.message == 3){window.location.hash = "#3"}
+            if(res.message == 4){window.location.hash = "#4"}
+            if(res.message == 5){window.location.hash = "#5"}
+            if(res.message == 6){window.location.hash = "#6"}
+            if(res.message == 7){window.location.hash = "#7"}
+            if(res.message == 8){window.location.hash = "#8"}
+            if(res.message == 9){window.location.hash = "#9"}
         })
         .catch(err => console.log(err))
       })
