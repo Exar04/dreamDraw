@@ -23,4 +23,4 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 
 model.fit(x_train, y_train, epochs=6)
 
-model.save('handwritten.model')
+model.save('handwritten.h5')

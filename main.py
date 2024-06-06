@@ -13,7 +13,8 @@ from flask_cors import CORS, cross_origin
 
 
 
-model = tf.keras.models.load_model('handwritten.model')
+model = tf.keras.models.load_model('handwritten.h5')
+# model = tf.keras.layers.TFSMLayer(handwritten.h5)
 
 app = Flask(__name__)
 CORS(app)
