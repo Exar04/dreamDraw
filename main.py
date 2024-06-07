@@ -49,4 +49,5 @@ def imgolo():
         return "didn't recieve any image"
 
 if __name__ == '__main__':
+    print("\n\nRunning on port::8090\n\n")
     app.run(debug=True, port=8090)

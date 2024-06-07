@@ -1,4 +1,32 @@
-defualt:
+# As the processes are running in parallel to kill them you need to use the following commands in shell
+# kill $(lsof -t -i:3000) to kill the client
+# kill $(lsof -t -i:8090) to kill the server
+#!/bin/bash
+
+defualt: 
+	$(MAKE) server &
+	$(MAKE) client & 
+
+kill:
+	@if lsof -t -i:8090 > /dev/null 2>&1; then \
+		echo "Server exists."; \
+		echo "Shutting down server"; \
+		kill $(shell lsof -t -i:8090);\
+		echo "Server has been shutdown"; \
+	else \
+		echo "Server doesn't exist!"; \
+	fi
+
+	@if lsof -t -i:3000 > /dev/null 2>&1; then \
+		echo "Client exists";\
+		echo "Shutting down client"; \
+		kill $(shell lsof -t -i:3000);\
+		echo "Client has been shutdown"; \
+	else \
+		echo "Client doesn't exist!"; \
+	fi
+
+server:
 	@echo "Work Started"
 	@echo ""
 
@@ -6,7 +34,7 @@ defualt:
 		echo "Yes python venv exists" ;\
 		echo "" ;\
 		source bin/activate;\
-		$(MAKE) startServer;\
+		$(MAKE) startTheServer;\
 	else\
 		echo "python venv doesn't exist";\
 		echo "Initiating venv";\
@@ -23,17 +51,14 @@ defualt:
 		echo "changing keras 3 to its older version 2 because of compatibality issues";\
 		TF_USE_LEGACY_KERAS=1 ;\
 		echo "Switched to keras 2";\
-		$(MAKE) startServer;\
+		$(MAKE) startTheServer;\
 	fi
 
-startServer:
-	@echo Initiating Server ...
+startTheServer: 
+	@echo "Initiating Server ..."
 	@python main.py
 
-fu:
-	@if [ $(shell ls | grep pyvenv.cfg) = "pyvenv.cfg" ]; then\
-		echo "Yes python venv exists";\
-		echo "";\
-		source bin/activate;\
-		$(MAKE) startServer;\
-	fi
+
+client:
+	@cd frontend/reactfront && npm start
+
