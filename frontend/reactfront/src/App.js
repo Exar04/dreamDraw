@@ -7,6 +7,17 @@ function App() {
   const canvasRef = useRef(null);
   const canvas2Ref = useRef(null);
   const [painting, setPainting] = useState(false);
+  const targetReftoScrollTo = useRef(null);
+  const [pageList, setPageList] = useState([0,1,2,3,4,5,6,7,8,9])
+
+  const [listOfPageRefs, setlistOfPageRefs] = useState([]);
+
+  useEffect(() => {
+  const newRefs = pageList.map(() => React.createRef());
+    // Update state with the new list of refs
+    setlistOfPageRefs(newRefs);
+}, [pageList]);
+console.log(listOfPageRefs)
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -46,7 +57,12 @@ function App() {
         .then(response => response.json())
         .then((res) => {
           console.log(res.message);
-          // window.location.hash = `#${res.message}`;
+          pageList.map(pageNumber => {
+            if (pageNumber == res.message){
+              console.log("pagenumber is ", pageNumber)
+              listOfPageRefs[pageNumber].current.scrollIntoView({behavior: 'smooth'})
+            }
+          })
         })
         .catch(err => console.log(err));
       });
@@ -121,16 +137,8 @@ function App() {
         </a>
   )
 
-
-  return (
-    <div className="App">
-      <div className="w-screen h-screen bg-black flex justify-center items-center">
-        <canvas id="canvas" ref={canvasRef} className="rounded-xl" style={{border: "2px solid black"}}></canvas>
-      </div>
-      <canvas id="canvas2" ref={canvas2Ref} style={{width: 0, height: 0}}></canvas>
-
-
-    <div id="1" className=" justify-center items-center w-screen h-screen bg-black flex relative">
+  const BookmarkPage = pageList.map((pageNumber, index) => 
+    <div ref={listOfPageRefs[index]} className=" justify-center items-center w-screen h-screen bg-black flex relative">
         {/* <!-- Just some Balls --> */}
         <div className=" absolute -left-24 w-3/6 h-40 rounded-full bg-teal-400 p-9">
             <div className=" bg-teal-900 w-full h-full rounded-full "></div>
@@ -139,13 +147,18 @@ function App() {
             <div className=" bg-teal-900 w-full h-full rounded-full "></div>
         </div>
         <div className=" text-9xl text-white absolute z-20 w-24 h-20 rounded-full bg-teal-400"></div>
-        <div className=" text-9xl text-white absolute z-20 bg-black rounded-full">1</div>
-
+        <div className=" text-9xl text-white absolute z-20 bg-black rounded-full">{pageNumber}</div>
       {addedBookmark}
-      {addNewBookMarkSign}
-      {addNewBookmarkForm}
     </div>
+  )
 
+  return (
+    <div className="App">
+      <div className="w-screen h-screen bg-black flex justify-center items-center">
+        <canvas id="canvas" ref={canvasRef} className="rounded-xl" style={{border: "2px solid black"}}></canvas>
+      </div>
+      <canvas id="canvas2" ref={canvas2Ref} style={{width: 0, height: 0}}></canvas>
+      {BookmarkPage}
     </div>
   );
 }
