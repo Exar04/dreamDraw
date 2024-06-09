@@ -1,11 +1,16 @@
+#!/bin/bash
+
 # As the processes are running in parallel to kill them you need to use the following commands in shell
 # kill $(lsof -t -i:3000) to kill the client
 # kill $(lsof -t -i:8090) to kill the server
-#!/bin/bash
+# kill $(lsof -t -i:8000) to kill the MQ 
+
+# ls | grep Prediction | tr '\n' ' '
 
 defualt: 
-	$(MAKE) server &
-	$(MAKE) client & 
+	@$(MAKE) server &
+	@$(MAKE) client & 
+	@$(MAKE) watcher 
 
 kill:
 	@if lsof -t -i:8090 > /dev/null 2>&1; then \
@@ -26,6 +31,15 @@ kill:
 		echo "Client doesn't exist!"; \
 	fi
 
+	@if lsof -t -i:8000 > /dev/null 2>&1; then \
+		echo "MQ server exists."; \
+		echo "Shutting down MQ server"; \
+		kill $(shell lsof -t -i:8000);\
+		echo "MQ server has been shutdown"; \
+	else \
+		echo "MQ Server doesn't exist!"; \
+	fi
+
 server:
 	@echo "Work Started"
 	@echo ""
@@ -34,6 +48,7 @@ server:
 		echo "Yes python venv exists" ;\
 		echo "" ;\
 		source bin/activate;\
+		$(MAKE) mq & \
 		$(MAKE) startTheServer;\
 	else\
 		echo "python venv doesn't exist";\
@@ -55,10 +70,44 @@ server:
 	fi
 
 startTheServer: 
-	@echo "Initiating Server ..."
+	@echo "Initiating Web Server ..."
 	@python main.py
-
 
 client:
 	@cd frontend/reactfront && npm start
 
+mq:
+	@if [ "$(shell ls | grep -E 'falsePrediction|truePrediction')" = "" ]; then\
+		echo "No prediction files exist";\
+        mkdir falsePrediction ;\
+        mkdir truePrediction ;\
+        mkdir truePrediction/0 ;\
+        mkdir truePrediction/1 ;\
+        mkdir truePrediction/2 ;\
+        mkdir truePrediction/3 ;\
+        mkdir truePrediction/4 ;\
+        mkdir truePrediction/5 ;\
+        mkdir truePrediction/6 ;\
+        mkdir truePrediction/7 ;\
+        mkdir truePrediction/8 ;\
+        mkdir truePrediction/9 ;\
+        source bin/activate ;\
+        echo "Initiating MQ server ..." ;\
+        python ImgDataMQServer.py ;\
+    else\
+        echo "Prediction files exist";\
+        source bin/activate ;\
+        echo "Initiating MQ server ..." ;\
+        python ImgDataMQServer.py ;\
+    fi
+
+watcher:
+	@echo "Initiating watcher ..."
+	@python watcher.py
+
+
+startRabitmq:
+	@docker run -d --name DreamDrawMQ -p 8080:15692 -p 5672:5672 rabbitmq
+# The port 8080 is consumer i.e we can send images to add in MQ here
+# The port 5672 is producer i.e we can get images that are in MQ from this port
+	

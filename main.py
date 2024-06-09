@@ -16,6 +16,7 @@ from flask_cors import CORS, cross_origin
 model = tf.keras.models.load_model('handwritten.h5')
 # model = tf.keras.layers.TFSMLayer(handwritten.h5)
 
+
 app = Flask(__name__)
 CORS(app)
 
@@ -35,11 +36,23 @@ def imgolo():
         img = img.convert("RGB")
         img.save("ImagetoUse.jpg", "JPEG")
 
-        img = cv2.imread(f"ImagetoUse.jpg")
+        # img = cv2.imread(f"ImagetoUse.jpg")
+
+        img_np = np.array(img)
+        # Convert RGB to BGR (OpenCV uses BGR format)
+        img = cv2.cvtColor(img_np, cv2.COLOR_RGB2BGR)
+
+        # This converts the image color range from (0 to 1) to (0 or 1)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        threshold_value = 70  # Adjust this value to capture "near-black" as per your requirements
+        _, binary = cv2.threshold(gray, threshold_value, 255, cv2.THRESH_BINARY_INV)
+        img = 255 - binary 
+        cv2.imwrite("black_and_white_output.jpg", img)
+        ##########################
 
         resized_img = cv2.resize(img, (28, 28))
-        gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        img = np.invert(np.array([gray_img]))
+        # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img = np.invert(np.array([img]))
         prediction = model.predict(img)
 
         userSaidThisArg = np.argmax(prediction)
